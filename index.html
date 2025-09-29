@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Validation</title>
+</head>
+<script>
+    function registerUser() {
+        let username = prompt ("Enter a username (Less than 10 character):");
+
+        if (username.length >= 10) {
+            alert(" ❌ Username must be less than 10 characters.");
+            return;
+        }
+        
+        let password = prompt("Enter a password (more than 6 characters):");
+
+        if (password.length <= 6) {
+            alert("❌ Password must be greater than 6 characters.");
+        return;
+        }
+        let confirmPassword = prompt("Confirm your password:");
+
+        if (password !== confirmPassword) {
+            alert("❌ Passwords do not match!");
+            return;
+        }
+        let user = {
+            username: username,
+            password: password
+        };
+
+        let outputDiv = document.getElementById("output");
+        outputDiv.innerHTML = `
+      <h3 style="color:green;">✅ Registration successful!</h3>
+      <p><strong>Username:</strong> ${user.username}</p>
+      <p><strong>Password:</strong> ${user.password}</p>
+    `;
+    }
+</script>
+<body>
+    <h2>User Validation</h2>
+    <button onclick="registerUser()">Start Registration</button>
+    <div id="output"></div>
+</body>
+</html>
