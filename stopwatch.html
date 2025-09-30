@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stopwatch</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            transition: background 0.3s ease;
+        }
+
+        body.dark {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+        }
+
+        .container {
+            background: white;
+            padding: 40px 50px;
+            border-radius: 30px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            text-align: center;
+            max-width: 500px;
+            width: 90%;
+            transition: background 0.3s ease, color 0.3s ease;
+        }
+
+        body.dark .container {
+            background: #0f3460;
+            color: white;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        h1 {
+            color: #667eea;
+            font-size: 2em;
+            flex-grow: 1;
+        }
+
+        body.dark h1 {
+            color: #4dd0e1;
+        }
+
+        .theme-toggle {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 1.2em;
+            transition: all 0.3s ease;
+        }
+
+        body.dark .theme-toggle {
+            background: #4dd0e1;
+        }
+
+        .theme-toggle:hover {
+            transform: scale(1.1);
+        }
+
+        .display {
+            font-size: 3.5em;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 30px;
+            font-family: 'Courier New', monospace;
+            letter-spacing: 3px;
+        }
+
+        body.dark .display {
+            color: #ffffff;
+        }
+
+        .milliseconds {
+            font-size: 0.6em;
+            color: #666;
+        }
+
+        body.dark .milliseconds {
+            color: #aaa;
+        }
+
+        .buttons {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 30px;
+        }
+
+        button {
+            padding: 15px 25px;
+            font-size: 1em;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        #startBtn {
+            background: #4CAF50;
+            color: white;
+        }
+
+        #startBtn:hover {
+            background: #45a049;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(76, 175, 80, 0.4);
+        }
+
+        #stopBtn {
+            background: #f44336;
+            color: white;
+        }
+
+        #stopBtn:hover {
+            background: #da190b;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(244, 67, 54, 0.4);
+        }
+
+        #resetBtn {
+            background: #ff9800;
+            color: white;
+        }
+
+        #resetBtn:hover {
+            background: #e68900;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 152, 0, 0.4);
+        }
+
+        #lapBtn {
+            background: #2196F3;
+            color: white;
+        }
+
+        #lapBtn:hover {
+            background: #0b7dda;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(33, 150, 243, 0.4);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        .laps-container {
+            max-height: 200px;
+            overflow-y: auto;
+            margin-top: 20px;
+            padding: 10px;
+            border-radius: 10px;
+            background: #f5f5f5;
+        }
+
+        body.dark .laps-container {
+            background: #16213e;
+        }
+
+        .lap-item {
+            padding: 10px;
+            margin: 5px 0;
+            background: white;
+            border-radius: 8px;
+            display: flex;
+            justify-content: space-between;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        body.dark .lap-item {
+            background: #1a1a2e;
+            color: white;
+        }
+
+        .lap-number {
+            font-weight: bold;
+            color: #667eea;
+        }
+
+        body.dark .lap-number {
+            color: #4dd0e1;
+        }
+
+        .no-laps {
+            color: #999;
+            padding: 20px;
+            font-style: italic;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 30px 20px;
+            }
+
+            h1 {
+                font-size: 1.5em;
+            }
+
+            .display {
+                font-size: 2.5em;
+            }
+
+            .buttons {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            button {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Stopwatch</h1>
+            <button class="theme-toggle" id="themeToggle">🌙</button>
+        </div>
+        
+        <div class="display" id="display">
+            00:00:00<span class="milliseconds">.000</span>
+        </div>
+        
+        <div class="buttons">
+            <button id="startBtn">Start</button>
+            <button id="stopBtn">Stop</button>
+            <button id="resetBtn">Reset</button>
+            <button id="lapBtn">Lap</button>
+        </div>
+
+        <div class="laps-container" id="lapsContainer">
+            <div class="no-laps">No lap times recorded</div>
+        </div>
+    </div>
+
+    <script>
+        // Variables to track time
+        let hours = 0;
+        let minutes = 0;
+        let seconds = 0;
+        let milliseconds = 0;
+        let interval = null;
+        let lapCounter = 1;
+
+        // Get elements
+        const display = document.getElementById('display');
+        const startBtn = document.getElementById('startBtn');
+        const stopBtn = document.getElementById('stopBtn');
+        const resetBtn = document.getElementById('resetBtn');
+        const lapBtn = document.getElementById('lapBtn');
+        const lapsContainer = document.getElementById('lapsContainer');
+        const themeToggle = document.getElementById('themeToggle');
+        const body = document.body;
+
+        // Theme toggle function
+        themeToggle.addEventListener('click', function() {
+            body.classList.toggle('dark');
+            
+            // Change icon based on theme
+            if (body.classList.contains('dark')) {
+                themeToggle.textContent = '☀️';
+            } else {
+                themeToggle.textContent = '🌙';
+            }
+        });
+
+        // Start button function
+        startBtn.addEventListener('click', function() {
+            // Prevent multiple intervals from running
+            if (interval !== null) {
+                return;
+            }
+            
+            // Start the timer using setInterval (every 10ms for milliseconds)
+            interval = setInterval(function() {
+                milliseconds += 10;
+                
+                // Convert milliseconds to seconds
+                if (milliseconds === 1000) {
+                    milliseconds = 0;
+                    seconds++;
+                }
+                
+                // Convert seconds to minutes
+                if (seconds === 60) {
+                    seconds = 0;
+                    minutes++;
+                }
+                
+                // Convert minutes to hours
+                if (minutes === 60) {
+                    minutes = 0;
+                    hours++;
+                }
+                
+                // Update the display
+                updateDisplay();
+            }, 10);
+        });
+
+        // Stop button function
+        stopBtn.addEventListener('click', function() {
+            // Clear the interval to pause the timer
+            clearInterval(interval);
+            interval = null;
+        });
+
+        // Reset button function
+        resetBtn.addEventListener('click', function() {
+            // Stop the timer
+            clearInterval(interval);
+            interval = null;
+            
+            // Reset all values to zero
+            hours = 0;
+            minutes = 0;
+            seconds = 0;
+            milliseconds = 0;
+            lapCounter = 1;
+            
+            // Clear lap times
+            lapsContainer.innerHTML = '<div class="no-laps">No lap times recorded</div>';
+            
+            // Update the display
+            updateDisplay();
+        });
+
+        // Lap button function
+        lapBtn.addEventListener('click', function() {
+            // Only record lap if timer is running
+            if (interval !== null) {
+                // Remove "no laps" message if it exists
+                if (lapsContainer.querySelector('.no-laps')) {
+                    lapsContainer.innerHTML = '';
+                }
+                
+                // Create lap item
+                const lapItem = document.createElement('div');
+                lapItem.className = 'lap-item';
+                
+                // Format current time
+                const h = hours < 10 ? '0' + hours : hours;
+                const m = minutes < 10 ? '0' + minutes : minutes;
+                const s = seconds < 10 ? '0' + seconds : seconds;
+                const ms = milliseconds < 100 ? (milliseconds < 10 ? '00' + milliseconds : '0' + milliseconds) : milliseconds;
+                
+                lapItem.innerHTML = `
+                    <span class="lap-number">Lap ${lapCounter}</span>
+                    <span>${h}:${m}:${s}.${ms}</span>
+                `;
+                
+                // Add to beginning of laps container
+                lapsContainer.insertBefore(lapItem, lapsContainer.firstChild);
+                
+                lapCounter++;
+            }
+        });
+
+        // Function to update the display
+        function updateDisplay() {
+            // Add leading zeros if needed
+            const h = hours < 10 ? '0' + hours : hours;
+            const m = minutes < 10 ? '0' + minutes : minutes;
+            const s = seconds < 10 ? '0' + seconds : seconds;
+            const ms = milliseconds < 100 ? (milliseconds < 10 ? '00' + milliseconds : '0' + milliseconds) : milliseconds;
+            
+            // Update the display element
+            display.innerHTML = h + ':' + m + ':' + s + '<span class="milliseconds">.' + ms + '</span>';
+        }
+    </script>
+</body>
+</html>
