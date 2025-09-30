@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Michael Yusuf - Profile</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background-color: #f0f0f0;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+        }
+
+        .top-section {
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            gap: 30px;
+            background-color: #87CEEB;
+            padding: 40px;
+            border-radius: 20px;
+            border: 3px solid #C71585;
+        }
+
+        .profile-circle {
+            width: 250px;
+            height: 250px;
+            border-radius: 50%;
+            border: 4px solid #C71585;
+            background-color: #B0E0E6;
+        }
+
+        .about-text {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .about-text h1 {
+            color: #C71585;
+            font-size: 2.5em;
+            margin-bottom: 20px;
+        }
+
+        .about-text p {
+            font-size: 1.1em;
+            line-height: 1.6;
+            color: #333;
+        }
+
+        .bottom-section {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .box {
+            background-color: #87CEEB;
+            padding: 30px;
+            border-radius: 20px;
+            border: 3px solid #C71585;
+            min-height: 250px;
+        }
+
+        .box h2 {
+            color: #C71585;
+            font-size: 2em;
+            margin-bottom: 20px;
+        }
+
+        .box p {
+            font-size: 1.1em;
+            line-height: 1.6;
+            color: #333;
+        }
+
+        .hobby-item {
+            margin-bottom: 15px;
+        }
+
+        .hobby-item strong {
+            color: #C71585;
+        }
+
+        @media (max-width: 768px) {
+            .top-section {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+
+            .profile-circle {
+                margin: 0 auto;
+            }
+
+            .bottom-section {
+                grid-template-columns: 1fr;
+            }
+
+            .about-text h1 {
+                font-size: 2em;
+            }
+
+            .box h2 {
+                font-size: 1.5em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="top-section">
+            <div class="profile-circle"></div>
+            <div class="about-text">
+                <h1>About yourself</h1>
+                <p>
+                    Hello! I'm Michael Yusuf, a passionate technology enthusiast currently enrolled in 
+                    AltSchool's School of Engineering. I have a strong interest in cloud computing and 
+                    modern software development practices. I enjoy learning new technologies and applying 
+                    them to solve real-world problems. I believe in continuous growth and always strive 
+                    to improve my skills and knowledge in the tech industry.
+                </p>
+            </div>
+        </div>
+
+        <div class="bottom-section">
+            <div class="box">
+                <h2>Hobbies</h2>
+                <div class="hobby-item">
+                    <p><strong>Football:</strong> I love playing and watching football. It's a great way 
+                    to stay active, build teamwork skills, and enjoy some friendly competition. Whether 
+                    it's a casual match with friends or following my favorite teams, football is always exciting.</p>
+                </div>
+                <div class="hobby-item">
+                    <p><strong>Music:</strong> Music is a big part of my life. I enjoy listening to 
+                    various genres and discovering new artists. Music helps me relax, focus while coding, 
+                    and adds joy to my everyday routine.</p>
+                </div>
+            </div>
+
+            <div class="box">
+                <h2>Aspiration in life</h2>
+                <p>
+                    My aspiration is to become a skilled cloud engineer and contribute to building scalable, 
+                    reliable cloud infrastructure. I aim to work with cutting-edge cloud technologies and 
+                    help organizations optimize their systems. I want to continuously grow in my career, 
+                    stay updated with industry trends, and eventually mentor others in the field of cloud 
+                    computing and software engineering.
+                </p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
